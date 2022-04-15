@@ -1,0 +1,1119 @@
+﻿<Window x:Class="SudokuGameWPF.View.MainWindow"
+        x:Name="WindowGame"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SudokuGameWPF.View"
+        xmlns:srcMS="clr-namespace:SudokuGameWPF.Model.Structures"
+        mc:Ignorable="d"
+        Title="Sudoku Game - Designed by Hoàng Kha"
+        Height="750" Width="430"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight"
+        Closing="Window_Closing">
+    
+    <Window.Resources>
+        <Style x:Key="ControlGridStyle"
+               TargetType="Grid">
+            <Setter Property="Margin" Value="14,10,14,0"/>
+            <Setter Property="Height" Value="70" />
+            <Setter Property="Width" Value="402" />
+            <Setter Property="Background" Value="#FF68FFF7"/>
+        </Style>
+
+        <Style x:Key="ButtonNewGameStyle"
+               TargetType="Button">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontSize" Value="22" />
+            <Setter Property="Foreground" Value="#FF004EC0" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Height" Value="35" />
+            <Setter Property="Width" Value="140" />
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{x:Null}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ButtonPauseGameStyle"
+               TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Margin" Value="200,0,0,0"/>
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Width" Value="40" />
+            <Setter Property="Background" Value="{x:Null}"/>
+
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border x:Name="border" CornerRadius="20"
+                                    Background="#FF004EC0"
+                                    Padding="10">
+                                <Image Source="/SudokuGameWPF;component/Resource/iconPause.ico"></Image>
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#FF003D96"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ButtonResetGameStyle"
+               TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Margin" Value="250,0,0,0"/>
+            <Setter Property="Height" Value="42" />
+            <Setter Property="Width" Value="42" />
+            <Setter Property="Background" Value="{x:Null}"/>
+
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border x:Name="border" CornerRadius="20"
+                                    Background="#FF004EC0"
+                                    Padding="10">
+                                <Image Source="/SudokuGameWPF;component/Resource/iconReset.ico"></Image>
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#FF003D96"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ButtonThemeGameStyle"
+               TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Margin" Value="300,0,0,0"/>
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Width" Value="40" />
+            <Setter Property="Background" Value="{x:Null}"/>
+
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border x:Name="border2" CornerRadius="20"
+                                    Background="#FF004EC0"
+                                    Padding="10">
+                                <Image Source="/SudokuGameWPF;component/Resource/iconPaintBrush.ico"></Image>
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border2" Value="#FF003D96"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ButtonAboutGameStyle"
+               TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Margin" Value="350,0,0,0"/>
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Width" Value="40" />
+            <Setter Property="Background" Value="{x:Null}"/>
+
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border x:Name="border2" CornerRadius="20"
+                                    Background="#FF004EC0"
+                                    Padding="8">
+                                <Image Source="/SudokuGameWPF;component/Resource/iconAbout.ico"></Image>
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border2" Value="#FF003D96"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="GameGridStyle"
+               TargetType="Grid">
+            <Setter Property="Margin" Value="14,130,14,0" />
+            <Setter Property="Height" Value="402" />
+            <Setter Property="Width" Value="402" />
+            <Setter Property="Panel.ZIndex" Value="2" />
+        </Style>
+
+        <Style x:Key="CellStyle"
+               TargetType="TextBlock">
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Width" Value="45" />
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="IsEnabled" Value="True" />
+            <Setter Property="Visibility" Value="Visible" />
+            <Setter Property="Grid.Row" Value="0" />
+            <Setter Property="Grid.Column" Value="0" />
+            <Setter Property="Grid.ColumnSpan" Value="3" />
+            <Setter Property="Grid.RowSpan" Value="3" />
+            <Setter Property="Padding" Value="0 3 0 0"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseDirectlyOver" Value="True">
+                    <Setter Property="Background" Value="LightBlue" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="NoteCellStyle"
+               TargetType="TextBlock">
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="9" />
+            <Setter Property="Visibility" Value="Hidden" />
+            <Setter Property="Foreground" Value="Black" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseDirectlyOver" Value="True">
+                    <Setter Property="Background" Value="LightBlue" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <DataTemplate x:Key="CellDataTemplate"
+                      DataType="{x:Type srcMS:CellClass}">
+            <Grid x:Name="CellGrid"
+                  Margin="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock x:Name="Cell" 
+                           Style="{StaticResource CellStyle}"/>
+                <TextBlock x:Name="Note1"
+                           Text="{Binding Path=Notes[0].Value, Mode=OneWay}"
+                           Style="{StaticResource NoteCellStyle}"
+                           IsEnabled="False"
+                           Grid.Column="0"
+                           Grid.Row="0"/>
+                <TextBlock x:Name="Note2"
+                           Text="{Binding Path=Notes[1].Value, Mode=OneWay}"
+                           Style="{StaticResource NoteCellStyle}"
+                           IsEnabled="False"
+                           Grid.Column="1"
+                           Grid.Row="0"/>
+                <TextBlock x:Name="Note3"
+                           Text="{Binding Path=Notes[2].Value, Mode=OneWay}"
+                           Style="{StaticResource NoteCellStyle}"
+                           IsEnabled="False"
+                           Grid.Column="2"
+                           Grid.Row="0"/>
+                <TextBlock x:Name="Note4"
+                           Text="{Binding Path=Notes[3].Value, Mode=OneWay}"
+                           Style="{StaticResource NoteCellStyle}"
+                           IsEnabled="False"
+                           Grid.Column="0"
+                           Grid.Row="1"/>
+                <TextBlock x:Name="Note5"
+                           Text="{Binding Path=Notes[4].Value, Mode=OneWay}"
+                           Style="{StaticResource NoteCellStyle}"
+                           IsEnabled="False"
+                           Grid.Column="1"
+                           Grid.Row="1"/>
+                <TextBlock x:Name="Note6"
+                           Text="{Binding Path=Notes[5].Value, Mode=OneWay}"
+                           Style="{StaticResource NoteCellStyle}"
+                           IsEnabled="False"
+                           Grid.Column="2"
+                           Grid.Row="1"/>
+                <TextBlock x:Name="Note7"
+                           Text="{Binding Path=Notes[6].Value, Mode=OneWay}"
+                           Style="{StaticResource NoteCellStyle}"
+                           IsEnabled="False"
+                           Grid.Column="0"
+                           Grid.Row="2"/>
+                <TextBlock x:Name="Note8"
+                           Text="{Binding Path=Notes[7].Value, Mode=OneWay}"
+                           Style="{StaticResource NoteCellStyle}"
+                           IsEnabled="False"
+                           Grid.Column="1"
+                           Grid.Row="2"/>
+                <TextBlock x:Name="Note9"
+                           Text="{Binding Path=Notes[8].Value, Mode=OneWay}"
+                           Style="{StaticResource NoteCellStyle}"
+                           IsEnabled="False"
+                           Grid.Column="2"
+                           Grid.Row="2"/>
+            </Grid>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Path=CellState}" Value="Answer">
+                    <Setter Property="Text" Value="{Binding Path=Answer, Mode=OneWay}" TargetName="Cell"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=CellState}" Value="Hint">
+                    <Setter Property="Text" Value="{Binding Path=Answer, Mode=OneWay}" TargetName="Cell"/>
+                    <Setter Property="Foreground" Value="BlueViolet" TargetName="Cell"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=CellState}" Value="Blank">
+                    <Setter Property="Text" Value=" " TargetName="Cell"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=CellState}" Value="UserInputCorrect" >
+                    <Setter Property="Text" Value="{Binding Path=UserAnswer, Mode=OneWay}" TargetName="Cell"/>
+                    <Setter Property="Foreground" Value="DarkGreen" TargetName="Cell"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=CellState}" Value="UserInputIncorrect" >
+                    <Setter Property="Text" Value="{Binding Path=UserAnswer, Mode=OneWay}" TargetName="Cell"/>
+                    <Setter Property="Foreground" Value="Red" TargetName="Cell"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=CellSelection}" Value="Selected" >
+                    <Setter Property="Background" Value="LightBlue" TargetName="CellGrid"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=CellSelection}" Value="SameRow" >
+                    <Setter Property="Background" Value="Green" TargetName="CellGrid"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=CellSelection}" Value="SameCol" >
+                    <Setter Property="Background" Value="Green" TargetName="CellGrid"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=CellSelection}" Value="SameRegion" >
+                    <Setter Property="Background" Value="Green" TargetName="CellGrid"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=CellSelection}" Value="DifferentRowColRegionButSameNumber" >
+                    <Setter Property="Background" Value="Green" TargetName="CellGrid"/>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding ElementName=WindowGame, Path=DataContext.IsShowCells}" Value="false" >
+                    <Setter Property="Visibility" Value="Hidden" TargetName="CellGrid"/>
+                </DataTrigger>
+
+                
+
+                <DataTrigger Binding="{Binding Path=CellState}" Value="Notes">
+                    <Setter Property="Visibility" Value="Visible" TargetName="Cell" />
+                    <Setter Property="Visibility" Value="Visible" TargetName="Note1" />
+                    <Setter Property="Visibility" Value="Visible" TargetName="Note2" />
+                    <Setter Property="Visibility" Value="Visible" TargetName="Note3" />
+                    <Setter Property="Visibility" Value="Visible" TargetName="Note4" />
+                    <Setter Property="Visibility" Value="Visible" TargetName="Note5" />
+                    <Setter Property="Visibility" Value="Visible" TargetName="Note6" />
+                    <Setter Property="Visibility" Value="Visible" TargetName="Note7" />
+                    <Setter Property="Visibility" Value="Visible" TargetName="Note8" />
+                    <Setter Property="Visibility" Value="Visible" TargetName="Note9" />
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+
+        <Style x:Key="BorderStyle"
+               TargetType="Border">
+            <Setter Property="BorderBrush" Value="#FF008881" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+
+        <Style x:Key="MiniBorderStyle"
+               TargetType="Border"
+               BasedOn="{StaticResource BorderStyle}">
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="Grid.ColumnSpan" Value="3" />
+            <Setter Property="Grid.RowSpan" Value="3" />
+            <Setter Property="Height" Value="134" />
+            <Setter Property="Width" Value="134" />
+        </Style>
+
+        <Style x:Key="MiniBorderWhiteStyle"
+               TargetType="Border"
+               BasedOn="{StaticResource MiniBorderStyle}">
+            <Setter Property="Background" Value="White" />
+        </Style>
+
+        <Style x:Key="BarBaseStyle"
+               TargetType="Rectangle">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="Margin" Value="0,0,0,0" />
+            <Setter Property="Stroke" Value="#FF00CDC2" />
+        </Style>
+
+        <Style x:Key="BigBarBaseStyle"
+               TargetType="Rectangle">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="Margin" Value="0,0,0,0" />
+            <Setter Property="Stroke" Value="#FF00633A" />
+        </Style>
+
+        <Style x:Key="HorizontalBars"
+               TargetType="Rectangle"
+               BasedOn="{StaticResource BarBaseStyle}">
+            <Setter Property="Grid.ColumnSpan" Value="3"/>
+            <Setter Property="Height" Value="1"/>
+            <Setter Property="Width" Value="134" />
+        </Style>
+
+        <Style x:Key="VerticalBars"
+               TargetType="Rectangle"
+               BasedOn="{StaticResource BarBaseStyle}">
+            <Setter Property="Grid.RowSpan" Value="3"/>
+            <Setter Property="Height" Value="134"/>
+            <Setter Property="Width" Value="1" />
+        </Style>
+
+        <Style x:Key="BigHorizontalBars"
+               TargetType="Rectangle"
+               BasedOn="{StaticResource BigBarBaseStyle}">
+            <Setter Property="Grid.ColumnSpan" Value="3"/>
+            <Setter Property="Height" Value="3"/>
+            <Setter Property="Width" Value="134" />
+            <Setter Property="Margin" Value="0 -1.5 0 0"/>
+            <Setter Property="Fill" Value="#FF00633A"></Setter>
+            
+        </Style>
+
+        <Style x:Key="BigVerticalBars"
+               TargetType="Rectangle"
+               BasedOn="{StaticResource BigBarBaseStyle}">
+            <Setter Property="Grid.RowSpan" Value="3"/>
+            <Setter Property="Height" Value="134"/>
+            <Setter Property="Width" Value="3" />
+            <Setter Property="Margin" Value="-1.5 0 0 0"/>
+            <Setter Property="Fill" Value="#FF00633A"></Setter>
+        </Style>
+
+        <Style x:Key="BigHorizontalBars2"
+               TargetType="Rectangle"
+               BasedOn="{StaticResource BigBarBaseStyle}">
+            <Setter Property="VerticalAlignment" Value="Bottom" />
+            <Setter Property="Grid.ColumnSpan" Value="3"/>
+            <Setter Property="Height" Value="3"/>
+            <Setter Property="Width" Value="134" />
+            <Setter Property="Fill" Value="#FF00633A"></Setter>
+
+        </Style>
+
+        <Style x:Key="BigVerticalBars2"
+               TargetType="Rectangle"
+               BasedOn="{StaticResource BigBarBaseStyle}">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Grid.RowSpan" Value="3"/>
+            <Setter Property="Height" Value="134"/>
+            <Setter Property="Width" Value="3" />
+            <Setter Property="Fill" Value="#FF00633A"></Setter>
+        </Style>
+
+        <Style x:Key="ButtonUndoStyle"
+               TargetType="Button">
+            <Setter  Property="Width" Value="70"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border x:Name="border" CornerRadius="18"
+                                    Background="#FF004EC0">
+                                <StackPanel Orientation="Vertical"
+                                            >
+                                    <Image Source="/SudokuGameWPF;component/Resource/iconUndo.ico"
+                                           Height="30"
+                                           Margin="6"></Image>
+                                    <TextBlock Text="Undo"
+                                               HorizontalAlignment="Center"
+                                               Foreground="White"
+                                               FontSize="15"></TextBlock>
+                                </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="border" Value="#FF003D96"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ButtonEraseStyle"
+               TargetType="Button">
+            <Setter  Property="Width" Value="70"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border x:Name="border" CornerRadius="18"
+                                    Background="#FF004EC0">
+                                <StackPanel Orientation="Vertical"
+                                            >
+                                    <Image Source="/SudokuGameWPF;component/Resource/iconErase.ico"
+                                           Height="30"
+                                           Margin="6"></Image>
+                                    <TextBlock Text="Erase"
+                                               HorizontalAlignment="Center"
+                                               Foreground="White"
+                                               FontSize="15"></TextBlock>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#FF003D96"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ButtonPencilStyle"
+               TargetType="Button">
+            <Setter  Property="Width" Value="70"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border x:Name="border" CornerRadius="18"
+                                    Background="#FF004EC0">
+                                <StackPanel Orientation="Vertical"
+                                            >
+                                    <Image Source="/SudokuGameWPF;component/Resource/iconPencil.ico"
+                                           Height="30"
+                                           Margin="6"></Image>
+                                    <TextBlock Text="Pencil"
+                                               HorizontalAlignment="Center"
+                                               Foreground="White"
+                                               FontSize="15"></TextBlock>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#FF003D96"/>
+                            </Trigger>
+                            <DataTrigger Binding="{Binding Path=IsEnterNotes}" Value="True">
+                                <Setter Property="Background" Value="Red" TargetName="border"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ButtonHintStyle"
+               TargetType="Button">
+            <Setter  Property="Width" Value="70"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border x:Name="border" CornerRadius="18"
+                                    Background="#FF004EC0">
+                                <StackPanel Orientation="Vertical"
+                                            >
+                                    <Image Source="/SudokuGameWPF;component/Resource/iconHint.ico"
+                                           Height="30"
+                                           Margin="6"></Image>
+                                    <TextBlock Text="Hint"
+                                               HorizontalAlignment="Center"
+                                               Foreground="White"
+                                               FontSize="15"></TextBlock>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#FF003D96"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ButtonNumberTemplate"
+               TargetType="Button">
+            <Setter Property="Width" Value="45"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="FontSize" Value="38"/>
+            <Setter Property="FontFamily" Value="Franklin Gothic Demi"/>
+            <Setter Property="Foreground" Value="#FF008881"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{x:Null}" />
+                </Trigger>
+            </Style.Triggers>
+            
+        </Style>
+
+        <Style x:Key="TextBlockLevel"
+               TargetType="TextBlock">
+            <Setter Property="Width" Value="430"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="15"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontFamily" Value="Franklin Gothic Demi"/>
+            <Setter Property="Foreground" Value="#FF008881"/>
+        </Style>
+
+        <Style x:Key="ButtonContinue"
+               TargetType="Button">
+            <Setter  Property="Width" Value="430"/>
+            <Setter  Property="Height" Value="719"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                    Background="White"
+                                    Opacity="0.5"
+                                    >
+                            <Image Source="/SudokuGameWPF;component/Resource/iconContinue.png"
+                                           Height="120"
+                                           Margin="0 -60 0 0">
+                                
+                            </Image>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="white"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ButtonLevel"
+               TargetType="Button">
+            <Setter Property="Width" Value="300"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="FontFamily" Value="Franklin Gothic Demi"/>
+            <Setter Property="Foreground" Value="#FF008881"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{x:Null}" />
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
+
+    </Window.Resources>
+
+
+    <Canvas x:Name="CanvasMainWindowGame" Margin="0" Height="719" Width="430" >
+        <Canvas Margin="0" Height="719" Width="430">
+            <Grid Style="{StaticResource ControlGridStyle}">
+                <Button Content="NEW GAME" 
+                    Style="{StaticResource ButtonNewGameStyle}"
+                    Click="btnNew_Click">
+                </Button>
+
+                <Button Style="{StaticResource ButtonPauseGameStyle}"
+                    Click="btnPause_Click">
+                </Button>
+
+                <Button Style="{StaticResource ButtonResetGameStyle}"
+                    Click="btnReset_Click">
+                </Button>
+
+                <Button Style="{StaticResource ButtonThemeGameStyle}">
+                </Button>
+
+                <Button Style="{StaticResource ButtonAboutGameStyle}"
+                        Click="btnAbout_Click">
+                </Button>
+            </Grid>
+
+            <Label Height="39" 
+               Width="140"
+               Canvas.Left="14"
+               Canvas.Top="87"
+               FontSize="16"
+               HorizontalContentAlignment="Left"
+               VerticalContentAlignment="Center"
+               Content="{Binding Path=GameLevel, Mode=OneWay}"/>
+
+            <Label Height="39" 
+               Width="140"
+               Canvas.Left="276"
+               Canvas.Top="87"
+               FontSize="16"
+               HorizontalContentAlignment="Right"
+               VerticalContentAlignment="Center"
+               Content="{Binding Path=ElapsedTime, Mode=OneWay}"  />
+
+            <Grid Style="{StaticResource GameGridStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0"
+                  Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigHorizontalBars}" Grid.Row="0"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource HorizontalBars}" Grid.Row="1"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource HorizontalBars}" Grid.Row="2"/>
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigVerticalBars}" Grid.Row="0"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource VerticalBars}" Grid.Column="1"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource VerticalBars}" Grid.Column="2"/>
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell00, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="0" MouseLeftButtonDown="A0_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell10, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="0" MouseLeftButtonDown="B0_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell20, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="0" MouseLeftButtonDown="C0_MouseLeftButtonDown" />
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell01, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="1" MouseLeftButtonDown="A1_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell11, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="1" MouseLeftButtonDown="B1_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell21, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="1" MouseLeftButtonDown="C1_MouseLeftButtonDown" />
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell02, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="2" MouseLeftButtonDown="A2_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell12, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="2" MouseLeftButtonDown="B2_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell22, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="2" MouseLeftButtonDown="C2_MouseLeftButtonDown" />
+                </Grid>
+
+                <Grid Grid.Row="0"
+                  Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigHorizontalBars}" Grid.Row="0"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource HorizontalBars}" Grid.Row="1"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource HorizontalBars}" Grid.Row="2"/>
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigVerticalBars}" Grid.Row="0"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource VerticalBars}" Grid.Column="1"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource VerticalBars}" Grid.Column="2"/>
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell30, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="0" MouseLeftButtonDown="D0_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell40, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="0" MouseLeftButtonDown="E0_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell50, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="0" MouseLeftButtonDown="F0_MouseLeftButtonDown" />
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell31, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="1" MouseLeftButtonDown="D1_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell41, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="1" MouseLeftButtonDown="E1_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell51, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="1" MouseLeftButtonDown="F1_MouseLeftButtonDown" />
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell32, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="2" MouseLeftButtonDown="D2_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell42, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="2" MouseLeftButtonDown="E2_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell52, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="2" MouseLeftButtonDown="F2_MouseLeftButtonDown" />
+                </Grid>
+
+                <Grid Grid.Row="0"
+                  Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigHorizontalBars}" Grid.Row="0"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource HorizontalBars}" Grid.Row="1"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource HorizontalBars}" Grid.Row="2"/>
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigVerticalBars}" Grid.Row="0"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource VerticalBars}" Grid.Column="1"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource VerticalBars}" Grid.Column="2"/>
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigVerticalBars2}" Grid.Column="2"/>
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell60, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="0" MouseLeftButtonDown="G0_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell70, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="0" MouseLeftButtonDown="H0_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell80, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="0" MouseLeftButtonDown="I0_MouseLeftButtonDown" />
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell61, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="1" MouseLeftButtonDown="G1_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell71, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="1" MouseLeftButtonDown="H1_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell81, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="1" MouseLeftButtonDown="I1_MouseLeftButtonDown" />
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell62, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="2" MouseLeftButtonDown="G2_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell72, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="2" MouseLeftButtonDown="H2_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell82, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="2" MouseLeftButtonDown="I2_MouseLeftButtonDown" />
+                </Grid>
+
+                <Grid Grid.Row="1"
+                  Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigHorizontalBars}" Grid.Row="0"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource HorizontalBars}" Grid.Row="1"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource HorizontalBars}" Grid.Row="2"/>
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigVerticalBars}" Grid.Row="0"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource VerticalBars}" Grid.Column="1"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource VerticalBars}" Grid.Column="2"/>
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell03, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="0" MouseLeftButtonDown="A3_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell13, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="0" MouseLeftButtonDown="B3_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell23, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="0" MouseLeftButtonDown="C3_MouseLeftButtonDown" />
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell04, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="1" MouseLeftButtonDown="A4_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell14, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="1" MouseLeftButtonDown="B4_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell24, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="1" MouseLeftButtonDown="C4_MouseLeftButtonDown" />
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell05, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="2" MouseLeftButtonDown="A5_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell15, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="2" MouseLeftButtonDown="B5_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell25, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="2" MouseLeftButtonDown="C5_MouseLeftButtonDown" />
+                </Grid>
+
+                <Grid Grid.Row="1"
+                  Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigHorizontalBars}" Grid.Row="0"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource HorizontalBars}" Grid.Row="1"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource HorizontalBars}" Grid.Row="2"/>
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigVerticalBars}" Grid.Row="0"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource VerticalBars}" Grid.Column="1"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource VerticalBars}" Grid.Column="2"/>
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell33, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="0" MouseLeftButtonDown="D3_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell43, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="0" MouseLeftButtonDown="E3_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell53, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="0" MouseLeftButtonDown="F3_MouseLeftButtonDown" />
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell34, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="1" MouseLeftButtonDown="D4_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell44, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="1" MouseLeftButtonDown="E4_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell54, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="1" MouseLeftButtonDown="F4_MouseLeftButtonDown" />
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell35, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="2" MouseLeftButtonDown="D5_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell45, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="2" MouseLeftButtonDown="E5_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell55, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="2" MouseLeftButtonDown="F5_MouseLeftButtonDown" />
+                </Grid>
+
+                <Grid Grid.Row="1"
+                  Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigHorizontalBars}" Grid.Row="0"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource HorizontalBars}" Grid.Row="1"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource HorizontalBars}" Grid.Row="2"/>
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigVerticalBars}" Grid.Row="0"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource VerticalBars}" Grid.Column="1"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource VerticalBars}" Grid.Column="2"/>
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigVerticalBars2}" Grid.Column="2"/>
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell63, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="0" MouseLeftButtonDown="G3_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell73, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="0" MouseLeftButtonDown="H3_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell83, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="0" MouseLeftButtonDown="I3_MouseLeftButtonDown" />
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell64, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="1" MouseLeftButtonDown="G4_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell74, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="1" MouseLeftButtonDown="H4_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell84, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="1" MouseLeftButtonDown="I4_MouseLeftButtonDown" />
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell65, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="2" MouseLeftButtonDown="G5_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell75, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="2" MouseLeftButtonDown="H5_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell85, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="2" MouseLeftButtonDown="I5_MouseLeftButtonDown" />
+                </Grid>
+
+                <Grid Grid.Row="2"
+                  Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigHorizontalBars}" Grid.Row="0"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource HorizontalBars}" Grid.Row="1"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource HorizontalBars}" Grid.Row="2"/>
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigVerticalBars}" Grid.Row="0"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource VerticalBars}" Grid.Column="1"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource VerticalBars}" Grid.Column="2"/>
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigHorizontalBars2}" Grid.Row="2"/>
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell06, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="0" MouseLeftButtonDown="A6_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell16, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="0" MouseLeftButtonDown="B6_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell26, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="0" MouseLeftButtonDown="C6_MouseLeftButtonDown" />
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell07, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="1" MouseLeftButtonDown="A7_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell17, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="1" MouseLeftButtonDown="B7_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell27, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="1" MouseLeftButtonDown="C7_MouseLeftButtonDown" />
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell08, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="2" MouseLeftButtonDown="A8_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell18, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="2" MouseLeftButtonDown="B8_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell28, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="2" MouseLeftButtonDown="C8_MouseLeftButtonDown" />
+                </Grid>
+
+                <Grid Grid.Row="2"
+                  Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigHorizontalBars}" Grid.Row="0"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource HorizontalBars}" Grid.Row="1"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource HorizontalBars}" Grid.Row="2"/>
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigVerticalBars}" Grid.Row="0"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource VerticalBars}" Grid.Column="1"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource VerticalBars}" Grid.Column="2"/>
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigHorizontalBars2}" Grid.Row="2"/>
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell36, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="0" MouseLeftButtonDown="D6_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell46, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="0" MouseLeftButtonDown="E6_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell56, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="0" MouseLeftButtonDown="F6_MouseLeftButtonDown" />
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell37, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="1" MouseLeftButtonDown="D7_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell47, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="1" MouseLeftButtonDown="E7_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell57, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="1" MouseLeftButtonDown="F7_MouseLeftButtonDown" />
+
+                    <ContentControl Content="{Binding Path=Cell38, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="2" MouseLeftButtonDown="D8_MouseLeftButtonDown" />
+                    <ContentControl Content="{Binding Path=Cell48, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="2" MouseLeftButtonDown="E8_MouseLeftButtonDown" />
+                    <ContentControl Content="{Binding Path=Cell58, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="2" MouseLeftButtonDown="F8_MouseLeftButtonDown" />
+                </Grid>
+
+                <Grid Grid.Row="2"
+                  Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigHorizontalBars}" Grid.Row="0"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource HorizontalBars}" Grid.Row="1"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource HorizontalBars}" Grid.Row="2"/>
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigVerticalBars}" Grid.Row="0"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource VerticalBars}" Grid.Column="1"/>
+                    <Rectangle Panel.ZIndex="2" Style="{StaticResource VerticalBars}" Grid.Column="2"/>
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigVerticalBars2}" Grid.Column="2"/>
+                    <Rectangle Panel.ZIndex="3" Style="{StaticResource BigHorizontalBars2}" Grid.Row="2"/>
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell66, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="0" MouseLeftButtonDown="G6_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell76, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="0" MouseLeftButtonDown="H6_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell86, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="0" MouseLeftButtonDown="I6_MouseLeftButtonDown" />
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell67, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="1" MouseLeftButtonDown="G7_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell77, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="1" MouseLeftButtonDown="H7_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell87, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="1" MouseLeftButtonDown="I7_MouseLeftButtonDown" />
+
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell68, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="0" Grid.Row="2" MouseLeftButtonDown="G8_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell78, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="1" Grid.Row="2" MouseLeftButtonDown="H8_MouseLeftButtonDown" />
+                    <ContentControl Panel.ZIndex="1" Content="{Binding Path=Cell88, Mode=OneWay}" ContentTemplate="{StaticResource CellDataTemplate}" Grid.Column="2" Grid.Row="2" MouseLeftButtonDown="I8_MouseLeftButtonDown" />
+                </Grid>
+            </Grid>
+
+            <Grid Height="65"
+              Width="402"
+              Canvas.Bottom="90"
+              Canvas.Left="14">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0"
+                    Style="{StaticResource ButtonUndoStyle}"></Button>
+                <Button Grid.Column="1"
+                    Style="{StaticResource ButtonEraseStyle}" Click="ButtonClear_Click"></Button>
+                <Button Grid.Column="2"
+                    Style="{StaticResource ButtonPencilStyle}" Click="ButtonPencil_Click"></Button>
+                <Button Grid.Column="3"
+                    Style="{StaticResource ButtonHintStyle}" Click="ButtonHint_Click"></Button>
+            </Grid>
+
+            <StackPanel Height="45"
+                    Width="405"
+                    Canvas.Bottom="30"
+                    Canvas.Left="12.5"
+                    Orientation="Horizontal">
+                <Button Style="{StaticResource ButtonNumberTemplate}" Click="ButtonNumber1_Click">1</Button>
+                <Button Style="{StaticResource ButtonNumberTemplate}" Click="ButtonNumber2_Click">2</Button>
+                <Button Style="{StaticResource ButtonNumberTemplate}" Click="ButtonNumber3_Click">3</Button>
+                <Button Style="{StaticResource ButtonNumberTemplate}" Click="ButtonNumber4_Click">4</Button>
+                <Button Style="{StaticResource ButtonNumberTemplate}" Click="ButtonNumber5_Click">5</Button>
+                <Button Style="{StaticResource ButtonNumberTemplate}" Click="ButtonNumber6_Click">6</Button>
+                <Button Style="{StaticResource ButtonNumberTemplate}" Click="ButtonNumber7_Click">7</Button>
+                <Button Style="{StaticResource ButtonNumberTemplate}" Click="ButtonNumber8_Click">8</Button>
+                <Button Style="{StaticResource ButtonNumberTemplate}" Click="ButtonNumber9_Click">9</Button>
+
+            </StackPanel>
+
+        </Canvas>
+
+        <Canvas x:Name="CanvasContinueGame" Margin="0" Height="719" Width="430" Visibility="Hidden">
+            <Button Style="{StaticResource ButtonContinue}" Click="btnContinue_Click"></Button>
+        </Canvas>
+
+        <Canvas x:Name="CanvasChoiceLevel" Margin="0 419 0 0" Height="300" Width="430" Background="White" Visibility="Hidden" >
+            <StackPanel>
+                <TextBlock Style="{StaticResource TextBlockLevel}" >Choose the level you want to play</TextBlock>
+                <Button Style="{StaticResource ButtonLevel}" Click="btnStartVeryEasy_Click">Very Easy</Button>
+                <Button Style="{StaticResource ButtonLevel}" Click="btnStartEasy_Click">Easy</Button>
+                <Button Style="{StaticResource ButtonLevel}" Click="btnStartMedium_Click">Medium</Button>
+                <Button Style="{StaticResource ButtonLevel}" Click="btnStartHard_Click">Hard</Button>
+                <Button Style="{StaticResource ButtonLevel}" Click="btnStartExpert_Click">Expert</Button>
+            </StackPanel>
+            <Canvas.Style>
+                <Style TargetType="Canvas">
+                    <Style.Triggers>
+                        <Trigger Property="Visibility" Value="Visible">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" BeginTime="00:00:00">
+                                            <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0, 719, 0, 0" />
+                                            <SplineThicknessKeyFrame KeyTime="00:00:0.3" Value="0, 419, 0, 0" />
+                                        </ThicknessAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Canvas.Style>
+        </Canvas>
+    </Canvas>
+</Window>
