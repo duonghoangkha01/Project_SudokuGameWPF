@@ -1168,9 +1168,23 @@ namespace SudokuGameWPF.ViewModel
         private void LoadSettings()
         {
             GameLevel = ConvertGameLevel(Properties.Settings.Default.Level);    // Load game level from settings
+            MessageBoxResult iResults = MessageBox.Show("Do you want to continue the previous game?", "Sudoku", MessageBoxButton.YesNo);
+            if (iResults == MessageBoxResult.Yes)
+                LoadPreviousGame();
+
+
             // TODO: Load previous game if any.
             // If there was a previous game saved, then ask player
             // if they want to play old game or load a new game.
+        }
+
+        private void LoadPreviousGame()
+        {
+            string game = Properties.Settings.Default.CurrentGame;
+            CellClass[,] cells = ConvertStringToGame(game);
+            model = new GameModel(cells);
+            ContinuePreviousGame();
+
         }
 
         private bool CloseClick()
@@ -1191,13 +1205,50 @@ namespace SudokuGameWPF.ViewModel
         private void StopGame()
         {
             games.StopGamesManager();                              // Stop the game manager background tasks
+            SaveCurrentGame();
             SaveSettings();                                         // Save the settings to the config file
+        }
+
+        private void SaveCurrentGame()
+        {
+            Properties.Settings.Default.CurrentGame = ConvertGameToString();
+            timer.StopTimer();
+
+        }
+
+        private string ConvertGameToString()
+        {
+            StringBuilder sTemp = new StringBuilder();              // Instantiate a new string builder object
+            for (Int32 col = 0; col < 9; col++)                     // Loop through the columns
+                for (Int32 row = 0; row < 9; row++)                 // Loop through the rows
+                    sTemp.Append(model[col, row].ToString(true));       // Append to the string builder object
+            return sTemp.ToString();                                // Return the whole string
+        }
+
+        private CellClass[,] ConvertStringToGame(string sInput)
+        {
+            if (sInput.Length >= 162)                                       // Is the input string the right length?
+            {
+                CellClass[,] cells = new CellClass[9, 9];                   // Yes, the instantiate a new 2D array to hold the new game
+                Int32 iPtr = 0;                                             // Initialize the pointer variable
+                for (Int32 col = 0; col < 9; col++)                         // Loop through the columns
+                    for (Int32 row = 0; row < 9; row++)                     // Loop through the rows
+                    {
+                        string sTemp = sInput.Substring(iPtr, 3);           // Extract a 2 character string at the pointer location
+                        cells[col, row] = new CellClass(col, row, sTemp);   // Instantiate a new CellClass object with that string
+                        if (cells[col, row].InvalidState)                   // Was the conversion valid?
+                            return null;                                    // No, then abort and return null
+                        iPtr += 3;                                          // Yes, the increment pointer by 2
+                    }
+                return cells;                                               // Return the game that was restored
+            }
+            return null;                                                    // Problems, return null instead
         }
 
         private void SaveSettings()
         {
             Properties.Settings.Default.Level = (int)GameLevel;     // Save the game level settings to the application settings
-            Properties.Settings.Default.Save();                     // Save to the config file
+            Properties.Settings.Default.Save();                    // Save to the config file
         }
 
         private void LoadNewGame()
@@ -1288,7 +1339,18 @@ namespace SudokuGameWPF.ViewModel
             StartButtonState = StartButtonStateEnum.Pause;          // Set the start button state to Pause
             EnableGameControls(true, true);                         // Enable the game controls and show the grid
             UpdateEmptyCount();
-            IsShowCells = true;// Display the number of empty cells
+            IsShowCells = true;                                     // Display the number of empty cells
+        }
+
+        private void ContinuePreviousGame()
+        {
+            GameInProgress = true;                                  // Raise the game in progress flag
+            ShowBoard();                                            // Show the game 
+            timer.ContinuePreviousTimer();                          // Continue the game timer
+            StartButtonState = StartButtonStateEnum.Pause;          // Set the start button state to Pause
+            EnableGameControls(true, true);                         // Enable the game controls and show the grid
+            UpdateEmptyCount();
+            IsShowCells = true;                                     // Display the number of empty cells
         }
 
         private void ShowBoard()

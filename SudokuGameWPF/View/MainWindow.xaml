@@ -20,14 +20,14 @@
             <Setter Property="Margin" Value="14,10,14,0"/>
             <Setter Property="Height" Value="70" />
             <Setter Property="Width" Value="402" />
-            <Setter Property="Background" Value="#FF68FFF7"/>
+            <Setter Property="Background" Value="#92DE8B"/>
         </Style>
 
         <Style x:Key="ButtonNewGameStyle"
                TargetType="Button">
             <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="FontSize" Value="22" />
-            <Setter Property="Foreground" Value="#FF004EC0" />
+            <Setter Property="Foreground" Value="#028174" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="BorderBrush" Value="{x:Null}"/>
@@ -67,7 +67,7 @@
                     <ControlTemplate TargetType="Button">
                         <Grid>
                             <Border x:Name="border" CornerRadius="20"
-                                    Background="#FF004EC0"
+                                    Background="#028174"
                                     Padding="10">
                                 <Image Source="/SudokuGameWPF;component/Resource/iconPause.ico"></Image>
                             </Border>
@@ -75,7 +75,7 @@
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" TargetName="border" Value="#FF003D96"/>
+                                <Setter Property="Background" TargetName="border" Value="#028174"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -100,7 +100,7 @@
                     <ControlTemplate TargetType="Button">
                         <Grid>
                             <Border x:Name="border" CornerRadius="20"
-                                    Background="#FF004EC0"
+                                    Background="#028174"
                                     Padding="10">
                                 <Image Source="/SudokuGameWPF;component/Resource/iconReset.ico"></Image>
                             </Border>
@@ -108,7 +108,7 @@
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" TargetName="border" Value="#FF003D96"/>
+                                <Setter Property="Background" TargetName="border" Value="#028174"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -133,7 +133,7 @@
                     <ControlTemplate TargetType="Button">
                         <Grid>
                             <Border x:Name="border2" CornerRadius="20"
-                                    Background="#FF004EC0"
+                                    Background="#028174"
                                     Padding="10">
                                 <Image Source="/SudokuGameWPF;component/Resource/iconPaintBrush.ico"></Image>
                             </Border>
@@ -141,7 +141,7 @@
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" TargetName="border2" Value="#FF003D96"/>
+                                <Setter Property="Background" TargetName="border2" Value="#028174"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -166,7 +166,7 @@
                     <ControlTemplate TargetType="Button">
                         <Grid>
                             <Border x:Name="border2" CornerRadius="20"
-                                    Background="#FF004EC0"
+                                    Background="#028174"
                                     Padding="8">
                                 <Image Source="/SudokuGameWPF;component/Resource/iconAbout.ico"></Image>
                             </Border>
@@ -174,7 +174,7 @@
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" TargetName="border2" Value="#FF003D96"/>
+                                <Setter Property="Background" TargetName="border2" Value="#028174"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -323,16 +323,16 @@
                     <Setter Property="Background" Value="LightBlue" TargetName="CellGrid"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=CellSelection}" Value="SameRow" >
-                    <Setter Property="Background" Value="Green" TargetName="CellGrid"/>
+                    <Setter Property="Background" Value="#0AB68B" TargetName="CellGrid"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=CellSelection}" Value="SameCol" >
-                    <Setter Property="Background" Value="Green" TargetName="CellGrid"/>
+                    <Setter Property="Background" Value="#0AB68B" TargetName="CellGrid"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=CellSelection}" Value="SameRegion" >
-                    <Setter Property="Background" Value="Green" TargetName="CellGrid"/>
+                    <Setter Property="Background" Value="#0AB68B" TargetName="CellGrid"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=CellSelection}" Value="DifferentRowColRegionButSameNumber" >
-                    <Setter Property="Background" Value="Green" TargetName="CellGrid"/>
+                    <Setter Property="Background" Value="#0AB68B" TargetName="CellGrid"/>
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding ElementName=WindowGame, Path=DataContext.IsShowCells}" Value="false" >
@@ -392,7 +392,7 @@
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="Margin" Value="0,0,0,0" />
-            <Setter Property="Stroke" Value="#FF00633A" />
+            <Setter Property="Stroke" Value="#028174" />
         </Style>
 
         <Style x:Key="HorizontalBars"
@@ -418,7 +418,7 @@
             <Setter Property="Height" Value="3"/>
             <Setter Property="Width" Value="134" />
             <Setter Property="Margin" Value="0 -1.5 0 0"/>
-            <Setter Property="Fill" Value="#FF00633A"></Setter>
+            <Setter Property="Fill" Value="#028174"></Setter>
             
         </Style>
 
@@ -429,7 +429,7 @@
             <Setter Property="Height" Value="134"/>
             <Setter Property="Width" Value="3" />
             <Setter Property="Margin" Value="-1.5 0 0 0"/>
-            <Setter Property="Fill" Value="#FF00633A"></Setter>
+            <Setter Property="Fill" Value="#028174"></Setter>
         </Style>
 
         <Style x:Key="BigHorizontalBars2"
@@ -439,7 +439,7 @@
             <Setter Property="Grid.ColumnSpan" Value="3"/>
             <Setter Property="Height" Value="3"/>
             <Setter Property="Width" Value="134" />
-            <Setter Property="Fill" Value="#FF00633A"></Setter>
+            <Setter Property="Fill" Value="#028174"></Setter>
 
         </Style>
 
@@ -450,7 +450,7 @@
             <Setter Property="Grid.RowSpan" Value="3"/>
             <Setter Property="Height" Value="134"/>
             <Setter Property="Width" Value="3" />
-            <Setter Property="Fill" Value="#FF00633A"></Setter>
+            <Setter Property="Fill" Value="#028174"></Setter>
         </Style>
 
         <Style x:Key="ButtonUndoStyle"
@@ -462,7 +462,7 @@
                 <ControlTemplate TargetType="Button">
                     <Grid>
                         <Border x:Name="border" CornerRadius="18"
-                                    Background="#FF004EC0">
+                                    Background="#028174">
                                 <StackPanel Orientation="Vertical"
                                             >
                                     <Image Source="/SudokuGameWPF;component/Resource/iconUndo.ico"
@@ -478,7 +478,7 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="border" Value="#FF003D96"/>
+                            <Setter Property="Background" TargetName="border" Value="#028174"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -495,7 +495,7 @@
                     <ControlTemplate TargetType="Button">
                         <Grid>
                             <Border x:Name="border" CornerRadius="18"
-                                    Background="#FF004EC0">
+                                    Background="#028174">
                                 <StackPanel Orientation="Vertical"
                                             >
                                     <Image Source="/SudokuGameWPF;component/Resource/iconErase.ico"
@@ -511,7 +511,7 @@
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" TargetName="border" Value="#FF003D96"/>
+                                <Setter Property="Background" TargetName="border" Value="#028174"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -529,7 +529,7 @@
                     <ControlTemplate TargetType="Button">
                         <Grid>
                             <Border x:Name="border" CornerRadius="18"
-                                    Background="#FF004EC0">
+                                    Background="#028174">
                                 <StackPanel Orientation="Vertical"
                                             >
                                     <Image Source="/SudokuGameWPF;component/Resource/iconPencil.ico"
@@ -545,7 +545,7 @@
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" TargetName="border" Value="#FF003D96"/>
+                                <Setter Property="Background" TargetName="border" Value="#028174"/>
                             </Trigger>
                             <DataTrigger Binding="{Binding Path=IsEnterNotes}" Value="True">
                                 <Setter Property="Background" Value="Red" TargetName="border"/>
@@ -565,7 +565,7 @@
                     <ControlTemplate TargetType="Button">
                         <Grid>
                             <Border x:Name="border" CornerRadius="18"
-                                    Background="#FF004EC0">
+                                    Background="#028174">
                                 <StackPanel Orientation="Vertical"
                                             >
                                     <Image Source="/SudokuGameWPF;component/Resource/iconHint.ico"
@@ -581,7 +581,7 @@
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" TargetName="border" Value="#FF003D96"/>
+                                <Setter Property="Background" TargetName="border" Value="#028174"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

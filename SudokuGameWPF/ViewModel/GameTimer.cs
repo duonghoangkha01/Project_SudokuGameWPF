@@ -129,6 +129,16 @@ namespace SudokuGameWPF.ViewModel
             }
         }
 
+        internal void ContinuePreviousTimer()
+        {
+            if (timer == null)                             // Is the timer variable null?
+                timer = new Timer(interval);              // Yes, then instantiate a new timer instance and initialize the interval to 1 second
+            timer.Elapsed += timer_Elapsed;               // Set the timer event handler
+            timer.AutoReset = true;                        // Set the autoreset property to true
+            RaiseEvent(initialValue);                      // Raise the event
+            ResumeTimer();
+        }
+
         /// <summary>
         /// Load the previously saved time.
         /// </summary>

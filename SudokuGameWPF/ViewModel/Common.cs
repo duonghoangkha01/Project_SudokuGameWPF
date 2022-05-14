@@ -83,21 +83,6 @@ namespace SudokuGameWPF.ViewModel
             return Enum.IsDefined(typeof(DifficultyLevels), value);
         }
 
-        /// <summary>
-        /// Print the grid out to the immediate window.
-        /// </summary>
-        /// <param name="cells">Two dimensional array of cells to print out.</param>
-        internal static void PrintGrid(CellClass[,] cells)
-        {
-            for (Int32 col = 0; col < 9; col++)
-            {
-                StringBuilder sTemp = new StringBuilder();
-                for (Int32 row = 0; row < 9; row++)
-                    sTemp.AppendFormat("{0} ", cells[col, row].Answer.ToString());
-                Debug.WriteLine("{0}) {1}", col, sTemp.ToString());
-            }
-        }
-
         #endregion
     }
 }

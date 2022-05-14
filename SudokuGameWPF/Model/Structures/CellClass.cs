@@ -292,10 +292,13 @@ namespace SudokuGameWPF.Model.Structures
                         if (state.Length >= 3)                              // More data?
                         {
                             if (ExtractUserAnswer(state.Substring(2, 1)))   // Yes, extract the user's answer.
+                            {
                                 InvalidState = false;                       // Extract just fine.  Clear the flag.
+                                return;
+                            }
                         }
-                        else                                                // No more data.  Check if the state is valid or not.
-                            InvalidState = !((CellState == CellStateEnum.Answer) || (CellState == CellStateEnum.Blank));
+                                                                     
+            InvalidState = !((CellState == CellStateEnum.Answer) || (CellState == CellStateEnum.Blank));
         }
 
         private bool ExtractAnswer(string state)

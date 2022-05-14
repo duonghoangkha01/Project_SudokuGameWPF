@@ -50,6 +50,18 @@ namespace SudokuGameWPF.Model
                 return null;                                                // Otherwise, return null.
             }
         }
+
+        /// <summary>
+        /// Gets cells
+        /// </summary>
+        internal CellClass[,] Cells
+        {
+            get
+            {
+                return cells;                                   
+            }
+        }
+
         /// <summary>
         /// Gets a flag indicating whether or not the puzzle is complete.
         /// </summary>
@@ -178,7 +190,7 @@ namespace SudokuGameWPF.Model
         {
             if (cells != null)                                      // If the input parameter is not null
             {
-                this.cells = cells;                                     // Save it.
+                this.cells = cells;                                 // Save it.
                 InitRegionList();                                   // Initialize the region list.
                 ConvertToList();                                    // Convert the 2D array to a list.
                 GenerateAllNotes();                                 // Generate all notes for blank cells.
